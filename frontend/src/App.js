@@ -1,18 +1,23 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import HomePage from './pages/HomePage';
+import Registration from './pages/Registration'
 
 /*eslint-disable */
 function App() {
-	return (
-		<div>
-			<HomePage></HomePage>
-			<Router>
-				<main className="py-3">
-					<Route path="/" component={HomePage} />
-				</main>
-			</Router>
-		</div>
-	);
+    return (
+        <div>
+
+            <Router>
+
+                <main className="py-3">
+
+                    <Route path="/"
+                        component={HomePage}/>
+
+                </main>
+            </Router>
+        </div>
+    );
 }
 
 export default App;
