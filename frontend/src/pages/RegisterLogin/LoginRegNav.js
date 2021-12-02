@@ -10,11 +10,11 @@ const LoginRegNav = (props) => {
                 <div class="header-top">
                 <div class="logo-area">
                     <a href="index.html">
-                        <img src="images/logo-2.png" alt=""></img>
+                        <img src="images/Logo.png" alt=""></img>
                     </a>
                 </div>
                 <div class="top-nav">
-                    <a href="register.html" class="account-page-link">Register</a>
+                    <a href="register.html" class="account-page-link">{props.title}</a>
                 </div>
                 </div>
             </div>
