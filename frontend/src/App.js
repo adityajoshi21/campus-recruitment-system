@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-
+import LoginRegNav from './pages/LoginRegNav';
 /*eslint-disable */
 function App() {
 	return (
