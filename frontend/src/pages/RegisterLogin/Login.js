@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import LoginRegNav from "./LoginRegNav";
 
 const Login = (props) => {
   const [enteredEmail, setEnteredEmail] = useState("");
@@ -43,7 +42,26 @@ const Login = (props) => {
 
   return (
     <div>
-      <LoginRegNav title="Login" />
+      <header className="header-2 access-page-nav">
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <div className="header-top">
+                <div className="logo-area">
+                  <a href="index.html">
+                    <img src="images/logo-2.png" alt="" />
+                  </a>
+                </div>
+                <div className="top-nav">
+                  <a href="login.html" className="account-page-link">
+                    Login
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
       <div className="padding-top-90 padding-bottom-90 access-page-bg">
         <div className="container">
           <div className="row">
@@ -57,6 +75,7 @@ const Login = (props) => {
                 <form onSubmit={submitHandler}>
                   <div className="form-group">
                     <input
+                      class="form-control"
                       type="email"
                       id="email"
                       placeholder="Email Address"
@@ -67,6 +86,7 @@ const Login = (props) => {
                   </div>
                   <div className="form-group">
                     <input
+                      class="form-control"
                       type="password"
                       id="password"
                       placeholder="Password"
