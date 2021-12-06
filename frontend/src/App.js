@@ -3,12 +3,8 @@ import AddResume from './pages/AddResume';
 import CandidateDashboard from './pages/CandidateDashboard';
 import CandidateDetails from './pages/CandidateDetails';
 import CompanyDetails from './pages/CompanyDetails';
-import HomePage from './pages/HomePage';
-import JobDetails from './pages/JobDetails';
-import JobListing from './pages/JobListing';
-import CandidateList from './pages/CandidateList';
-import StudentNav from './pages/StudentNav';
-import CompanyNav from './pages/CompanyNav';
+import HomePage from './pages/HomePage/HomePage';
+
 //import Registration from './pages/Registration'
 
 
@@ -23,7 +19,7 @@ function App() {
                 <main className="py-3">
 
                     <Route path="/"
-                        component={CompanyNav}/>
+                        component={HomePage}/>
 
                 </main>
             </Router>

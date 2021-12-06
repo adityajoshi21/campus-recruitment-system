@@ -1,7 +1,7 @@
 import React from 'react'
 import {useState} from 'react'
 import validation from './validation'
-
+import LoginRegNav from './LoginRegNav';
 export const Registration = () => {
 
     const [values, setValues] = useState({name: "", email: "", password: "", confirmPassword: ""});
@@ -19,22 +19,7 @@ export const Registration = () => {
     }
     return (
         <div>
-            <header className="header-2 access-page-nav">
-                <div className="container">
-                    <div className="row">
-                        <div className="col">
-                            <div className="header-top">
-                                <div className="logo-area">
-                                    <a href="index.html"><img src="images/logo-2.png" alt=""/></a>
-                                </div>
-                                <div className="top-nav">
-                                    <a href="login.html" className="account-page-link">Login</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <LoginRegNav title="Register" />
 
             <div className="padding-top-90 padding-bottom-90 access-page-bg">
                 <div className="container">
