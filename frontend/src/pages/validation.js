@@ -17,7 +17,7 @@ const validation = (values) => {
     }
     if (!values.confirmPassword) {
         errors.confirmPassword = "password is required";
-    } else if (values.password != values.confirmPassword) {
+    } else if (values.password !== values.confirmPassword) {
         errors.confirmPassword = "password must be same";
     }
 
