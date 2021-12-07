@@ -3,6 +3,8 @@ import React from "react";
 import RecentJobsData from "./RecentJobsData";
 import Listing from "./Listing"
 import StudentNav from "../StudentNav"
+import RCData from "./RCData";
+import RecentCompanies from "./RecentCompanies";
 const HomePage = () => {
   return (
     <div>
@@ -119,6 +121,36 @@ const HomePage = () => {
       </div>
     </div>
  
+
+    <div class="section-padding-top padding-bottom-90">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="section-header">
+              <h2>Top Companies</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="company-carousel owl-carousel">
+            {
+          RCData.map(data=>{
+            return(
+              <RecentCompanies 
+              image={data.img}
+              companyName={data.companyname}
+              location={data.location}
+              position={data.position}
+              />
+            );
+          })
+        }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     </div>
   );
