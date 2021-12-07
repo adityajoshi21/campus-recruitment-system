@@ -385,8 +385,9 @@ a:focus {
 }
 
 .banner-3-bg {
-  background: url(../images/bg/banner-3-bg.jpg) no-repeat center left;
+  background: url(../images/bg/banner-3-bg.jpg) no-repeat center;
   background-size: cover;
+
 }
 
 .banner-3 .banner-content {
@@ -403,9 +404,9 @@ a:focus {
 
 .banner-3 .banner-content p {
   color: #6f7484;
-  font-size: 1.6rem;
+  font-size: 1.1rem;
   font-family: "Roboto", sans-serif;
-  max-width: 500px;
+  max-width: 70%;
   position: relative;
 }
 
@@ -3014,6 +3015,7 @@ a:focus {
 
 .information-and-share .buttons {
   margin-top: 20px;
+  margin-bottom:3.9vw;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3028,6 +3030,7 @@ a:focus {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 1.4rem;
+ 
 }
 
 .information-and-share .buttons .print,
@@ -4935,7 +4938,7 @@ form {
 }
 
 .section-header h2 {
-  font-family: #headerFont;
+ /* font-family: #headerFont;*/
   font-weight: 600;
   font-size: 2.8rem;
 }

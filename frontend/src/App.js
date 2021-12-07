@@ -1,18 +1,32 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import AddResume from './pages/AddResume';
+import CandidateDashboard from './pages/CandidateDashboard';
+import CandidateDetails from './pages/CandidateDetails';
+import CompanyDetails from './pages/CompanyDetails';
+import HomePage from './pages/HomePage/HomePage';
+import JobDetails from './pages/JobDetails';
+import JobListing from './pages/JobListing';
+
+//import Registration from './pages/Registration'
+
+
 
 /*eslint-disable */
 function App() {
-	return (
-		<div>
-			<HomePage></HomePage>
-			<Router>
-				<main className="py-3">
-					<Route path="/" component={HomePage} />
-				</main>
-			</Router>
-		</div>
-	);
+    return (
+        <div>
+
+            <Router>
+
+                <main className="py-3">
+
+                    <Route path="/"
+                        component={JobDetails}/>
+
+                </main>
+            </Router>
+        </div>
+    );
 }
 
 export default App;
