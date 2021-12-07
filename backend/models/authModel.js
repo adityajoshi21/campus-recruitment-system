@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs');
 
 /* ----------------------------- Auth Collection ---------------------------- */
 
 const userSchema = new Schema({
+	name: {
+		type: String,
+		required: true,
+	},
 	email: {
 		type: String,
 		required: true,
@@ -28,5 +33,9 @@ const userSchema = new Schema({
 	},
 	role: { type: String, required: true },
 });
+
+userSchema.methods.matchPassword = async function (enteredPassword) {
+	return await bcrypt.compare(enteredPassword, this.password);
+};
 
 module.exports = mongoose.model('Auth', userSchema);

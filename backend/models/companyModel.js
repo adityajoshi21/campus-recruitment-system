@@ -8,10 +8,6 @@ const companySchema = new Schema({
 		type: String,
 		required: true,
 	},
-	companyID: {
-		type: String,
-		required: true,
-	},
 	name: {
 		type: String,
 		required: true,
@@ -33,6 +29,10 @@ const companySchema = new Schema({
 	},
 	location: {
 		type: String,
+	},
+	image: {
+		type: String,
+		default: 'defaultUser.png',
 	},
 });
 
