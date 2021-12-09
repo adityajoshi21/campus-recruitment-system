@@ -72,7 +72,7 @@ const JobListing = (props) => {
                     <ListingJc
                       img={data.img}
                       jobTitle={data.jobTitle}
-                      company={data.city}
+                      company={data.company}
                       city={data.city}
                       type={data.type}
                       deadline={data.deadline}
