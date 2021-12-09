@@ -21,7 +21,7 @@ function App() {
                 <main className="py-3">
 
                     <Route path="/"
-                        component={CompanyDetails}/>
+                        component={JobListing}/>
 
                 </main>
             </Router>
