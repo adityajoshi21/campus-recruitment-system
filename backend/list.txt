@@ -1,0 +1,28 @@
+Registration POST
+Login POST
+/_me GET
+Profile GET
+Resume GET
+
+Student:
+
+Student Profile POST, PUT
+Student Resume PUT
+Company List GET
+Company Details GET
+Job List GET
+Job Details GET
+Job Apply POST/GET, PUT, DELETE
+
+
+Company:
+
+Company Profile PUT
+Post Job POST, PUT, DELETE, GET
+Jobs List GET
+Candidates List GET
+Candidates Details GET
+Rounds List GET
+Add Rounds POST, GET, PUT, DELETE
+Approve/Disaprove Candidates in a around PUT
+Declare results for a job POST

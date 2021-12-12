@@ -3,10 +3,21 @@ const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
 const morgan = require('morgan');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 const connectDB = require('./config/db');
 
+const store = new MongoDBStore({
+	uri: 'mongodb+srv://admin:devAdmin@cluster0.aarjd.mongodb.net',
+	collection: 'sessions',
+});
+
 const authRoutes = require('./routes/authRoutes');
+const studentRoutes = require('./routes/studentRoutes');
+const companyRoutes = require('./routes/companyRoutes');
+const jobRoutes = require('./routes/jobRoutes');
 
 dotenv.config();
 
@@ -20,7 +31,21 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 
+app.use(
+	session({
+		secret: 'my secret',
+		resave: false,
+		saveUninitialized: false,
+		store: store,
+	})
+);
+
+app.use('/api/student', studentRoutes);
+app.use('/api/company', companyRoutes);
+app.use('/api/job', jobRoutes);
 app.use('/api', authRoutes);
+
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(__dirname, '/frontend/build')));
