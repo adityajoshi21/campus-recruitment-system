@@ -51,6 +51,13 @@ const jobSchema = new Schema({
 		required: true,
 	},
 	files: [],
+	rounds: [
+		{
+			details: { type: Schema.Types.ObjectId, ref: 'Round' },
+			order: { type: Number, default: 1 },
+			status: { type: String, default: 'notshortlisted' },
+		},
+	],
 });
 
 module.exports = mongoose.model('Job', jobSchema);

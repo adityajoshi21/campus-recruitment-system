@@ -8,6 +8,7 @@ const {
 	getProfile,
 	postEditResume,
 	getResume,
+	applyForJob,
 } = require('../controllers/studentController');
 
 const storage = multer.diskStorage({
@@ -37,5 +38,6 @@ router.route('/profile').post(isAuth, upload.single('image'), postEditProfile);
 router.route('/profile/:studentID').get(isAuth, getProfile);
 router.route('/resume').post(isAuth, postEditResume);
 router.route('/resume/:studentID').get(isAuth, getResume);
+router.route('/apply/:jobID').get(isAuth, applyForJob);
 
 module.exports = router;

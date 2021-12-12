@@ -3,6 +3,8 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 const statusCodes = require('../utils/httpStatusCodes.js');
 const studentModel = require('../models/studentModel');
+const jobModel = require('../models/jobModel');
+const roundModel = require('../models/roundModel');
 const resumeModel = require('../models/resumeModel');
 const authModel = require('../models/authModel');
 
@@ -108,4 +110,52 @@ const getResume = asyncHandler(async (req, res) => {
 	}
 });
 
-module.exports = { postEditProfile, getProfile, postEditResume, getResume };
+const applyForJob = asyncHandler(async (req, res) => {
+	const email = req.user.email;
+	const jobID = req.params.jobID;
+
+	const studentDetails = await studentModel.findOne({ email });
+	const studentId = studentDetails._id;
+	const jobDetails = await jobModel.findById(jobID);
+
+	const currentDate = new Date();
+	if (
+		!(currentDate >= jobDetails.startDate && currentDate <= jobDetails.endDate)
+	) {
+		throw new Error('Too late or early!');
+	}
+
+	if (jobDetails.criteria > studentDetails.cpi) {
+		throw new Error(
+			"You're not eligible for this profile. Reason - Not enough CPI."
+		);
+	}
+
+	if (!jobDetails.openFor.includes(studentDetails.degree)) {
+		throw new Error("You're not eligible for this profile.");
+	}
+
+	const roundId = jobDetails.rounds[0];
+	const roundDetails = await roundModel.findById(roundId);
+
+	const checkIfAlreadyExist = roundDetails.applicants.find((applicant) => {
+		return String(applicant.student._id) == String(studentId);
+	});
+
+	if (checkIfAlreadyExist) {
+		throw new Error('Already applied!');
+	}
+
+	roundDetails.applicants.push({ student: studentDetails._id });
+	await roundDetails.save();
+
+	res.json({ message: 'Successfully Applied' });
+});
+
+module.exports = {
+	postEditProfile,
+	getProfile,
+	postEditResume,
+	getResume,
+	applyForJob,
+};

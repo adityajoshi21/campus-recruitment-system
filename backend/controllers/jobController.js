@@ -5,6 +5,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 const statusCodes = require('../utils/httpStatusCodes.js');
 const companyModel = require('../models/companyModel');
 const jobModel = require('../models/jobModel');
+const roundModel = require('../models/roundModel');
 
 const postAddJob = asyncHandler(async (req, res) => {
 	const reqBody = req.body;
@@ -36,6 +37,11 @@ const postAddJob = asyncHandler(async (req, res) => {
 				endDate,
 				company,
 			});
+
+			const defaultRound = new roundModel({});
+			const roundDetails = await defaultRound.save();
+
+			newJob.rounds.push(roundDetails._id);
 
 			const jobDetails = await newJob.save();
 
