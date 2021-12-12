@@ -11,6 +11,7 @@ import JobListing from './pages/JobListing';
 import { CompanyEditProfile } from './pages/CompanyPages/CompanyEditProfile';
 import { CompanyManageJobs } from './pages/CompanyPages/CompanyManageJobs';
 import { CompanyPostJobs } from './pages/CompanyPages/CompanyPostJobs';
+import Registration from './pages/RegisterLogin/Registration';
 
 //import Registration from './pages/Registration'
 
@@ -26,7 +27,7 @@ function App() {
                 <main className="py-3">
 
                     <Route path="/"
-                        component={CompanyDashboard}/>
+                        component={Registration}/>
 
                 </main>
             </Router>

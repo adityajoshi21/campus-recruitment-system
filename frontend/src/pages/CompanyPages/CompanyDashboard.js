@@ -80,15 +80,10 @@ export const CompanyDashboard = () => {
                 </div>
               </div>
               
-              <Router>
+          
               <CompanySidebar/>
-        <Switch>
-          <Route path="/" exact component={CompanyDashboard} />
-          <Route path="/editprofile" exact component={CompanyEditProfile} />
-          <Route path="/managejobs" exact component={CompanyManageJobs} />
-          <Route path="/postjobs" exact component={CompanyPostJobs} />
-        </Switch>
-      </Router>
+             
+       
             </div>
           </div>
         </div>

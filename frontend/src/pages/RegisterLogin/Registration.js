@@ -12,10 +12,25 @@ export const Registration = () => {
             [event.target.name]: event.target.value
         });
     }
-    console.log(values);
-    const handleFormSubmit = (event) => {
+    
+     const handleFormSubmit = async(event) => {
         event.preventDefault();
         setErrors(validation(values));
+
+        let item={values};
+        console.warn(item);
+
+       let result=await fetch('https://127.0.0.1:8000/api/register',{
+        mode: 'no-cors',
+            method:'POST',
+            body:JSON.stringify(item),
+            headers:{
+                "Content-Type":'application/json',
+                "Accept":'application/json'
+            }
+        })
+        result=await result.json()
+        console.warn("result",result);
     }
     return (
         <div>

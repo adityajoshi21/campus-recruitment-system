@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
                 </div>
               
                 <div class="dashboard-menu">
-                  <ul>
+                <ul>
                     <li class="active"> <Link to="/" ><i class="fas fa-home"></i>Dashboard</Link></li>
                     <li ><Link to="/editprofile" ><i class="fas fa-user"></i>Edit Profile</Link></li>
                     <li><Link to="/managejobs" ><i class="fas fa-briefcase"></i>Manage Jobs</Link></li>
