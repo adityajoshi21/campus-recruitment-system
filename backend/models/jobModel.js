@@ -55,7 +55,7 @@ const jobSchema = new Schema({
 		{
 			details: { type: Schema.Types.ObjectId, ref: 'Round' },
 			order: { type: Number, default: 1 },
-			status: { type: String, default: 'notshortlisted' },
+			status: { type: String, default: 'pending' },
 		},
 	],
 });

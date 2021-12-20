@@ -11,6 +11,11 @@ const {
 	deleteJob,
 	getJobList,
 	getMyJobList,
+	getRounds,
+	createRound,
+	editRound,
+	deleteRound,
+	changeApplicantStatus,
 } = require('../controllers/jobController');
 
 const storage = multer.diskStorage({
@@ -45,5 +50,14 @@ router
 	.put(isAuth, uploadDocs.array('files'), postEditJob)
 	.get(isAuth, getJobDetails)
 	.delete(isAuth, deleteJob);
+router
+	.route('/changestatus/:roundId/:studentId/:status')
+	.get(isAuth, changeApplicantStatus);
+router.route('/rounds/:jobID').get(isAuth, getRounds);
+router.route('/round').post(isAuth, createRound);
+router
+	.route('/round/:roundID')
+	.put(isAuth, editRound)
+	.delete(isAuth, deleteRound);
 
 module.exports = router;

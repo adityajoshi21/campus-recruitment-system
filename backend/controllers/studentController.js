@@ -135,8 +135,8 @@ const applyForJob = asyncHandler(async (req, res) => {
 		throw new Error("You're not eligible for this profile.");
 	}
 
-	const roundId = jobDetails.rounds[0];
-	const roundDetails = await roundModel.findById(roundId);
+	const round = jobDetails.rounds[0];
+	const roundDetails = await roundModel.findById(round.details);
 
 	const checkIfAlreadyExist = roundDetails.applicants.find((applicant) => {
 		return String(applicant.student._id) == String(studentId);
