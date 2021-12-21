@@ -38,10 +38,10 @@ const postAddJob = asyncHandler(async (req, res) => {
 				company,
 			});
 
-			const defaultRound = new roundModel({});
+			const defaultRound = new roundModel({ job: newJob });
 			const roundDetails = await defaultRound.save();
 
-			newJob.rounds.push(roundDetails._id);
+			newJob.rounds.push({ details: roundDetails._id });
 
 			const jobDetails = await newJob.save();
 
@@ -73,7 +73,6 @@ const postEditJob = asyncHandler(async (req, res) => {
 				if (!reqBody.deleteFiles.includes(file.fileName)) {
 					updatedFiles.push(file);
 				} else {
-					console.log('Delete ' + file.fileName);
 					const pathToFile = 'uploads/files/' + file.fileName;
 					if (fs.existsSync(pathToFile)) {
 						fs.unlinkSync(pathToFile);

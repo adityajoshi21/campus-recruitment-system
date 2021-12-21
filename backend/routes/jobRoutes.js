@@ -3,7 +3,7 @@ const multer = require('multer');
 let path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
-const { isAuth } = require('../middleware/authHandler');
+const { isAuth, isCompany, isStudent } = require('../middleware/authHandler');
 const {
 	postAddJob,
 	postEditJob,
@@ -37,13 +37,15 @@ const router = express.Router();
 
 router
 	.route('/')
-	.post(isAuth, uploadDocs.array('files'), postAddJob)
+	.post(isAuth, isCompany, uploadDocs.array('files'), postAddJob)
 	.get(isAuth, getJobList);
-router.route('/my').get(isAuth, getMyJobList);
+
+router.route('/my').get(isAuth, isCompany, getMyJobList);
+
 router
 	.route('/:jobID')
-	.put(isAuth, uploadDocs.array('files'), postEditJob)
+	.put(isAuth, isCompany, uploadDocs.array('files'), postEditJob)
 	.get(isAuth, getJobDetails)
-	.delete(isAuth, deleteJob);
+	.delete(isAuth, isCompany, deleteJob);
 
 module.exports = router;

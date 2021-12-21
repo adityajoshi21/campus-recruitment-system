@@ -24,6 +24,8 @@ const roundSchema = new Schema({
 		default: new Date(currentDate.getTime() + 86400000),
 		required: true,
 	},
+	status: { type: String, default: 'pending' },
+	resultType: { type: String, default: 'round' },
 	applicants: [
 		{
 			student: {
@@ -33,6 +35,7 @@ const roundSchema = new Schema({
 			status: { type: String, required: true, default: 'nonshortlisted' },
 		},
 	],
+	job: { type: Schema.Types.ObjectId, ref: 'Job' },
 });
 
 module.exports = mongoose.model('Round', roundSchema);

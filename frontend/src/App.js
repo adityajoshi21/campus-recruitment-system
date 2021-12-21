@@ -1,5 +1,5 @@
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-
+import Homepage from './pages/HomePage/HomePage'
 import Registration from './pages/RegisterLogin/Registration';
 import Login from './pages/RegisterLogin/Login'
 //import Registration from './pages/Registration'
@@ -16,7 +16,7 @@ function App() {
                 <main className="py-3">
 
                     <Route path="/"
-                        component={Registration}/>
+                        component={Homepage}/>
 
                 </main>
             </Router>

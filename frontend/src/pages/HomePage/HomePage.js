@@ -1,11 +1,34 @@
 /* eslint-disable */
-import React from "react";
+import React,{ useState, useEffect } from 'react'
 import RecentJobsData from "./RecentJobsData";
 import Listing from "./Listing"
-import StudentNav from "../StudentNav"
+import StudentNav from "../NavigationBar/StudentNav"
 import RCData from "./RCData";
 import RecentCompanies from "./RecentCompanies";
 const HomePage = () => {
+
+  const [data,setData]=useState([]);
+  const [filter,setFilter]=useState(data);
+  let componentMounted=true;
+
+  useEffect(() => {
+    const getJobs=async()=>{
+      const response=await fetch("/api/job/");
+      if(componentMounted)
+      {
+        setData(await response.clone().json());
+        setFilter(await response.json());
+
+      }
+      return ()=>{
+        componentMounted=false;
+      }
+    }
+    getJobs();
+  }, [])
+
+
+
   return (
     <div>
      <StudentNav/>
@@ -105,15 +128,15 @@ const HomePage = () => {
           </div>
         </div>
         {
-          RecentJobsData.map(recentJobdata=>{
+          filter.map(recentJobdata=>{
             return(
               <Listing 
-              image={recentJobdata.img}
-              JobTitle={recentJobdata.JobTitle}
-              company={recentJobdata.city}
-              city={recentJobdata.city}
-              type={recentJobdata.type}
-              deadline={recentJobdata.deadline}
+             
+              JobTitle={recentJobdata.title}
+              company={recentJobdata.company}
+              city={recentJobdata.location}
+              type={recentJobdata.offerType}
+              deadline={recentJobdata.endDate}
               />
             );
           })

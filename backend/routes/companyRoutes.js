@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 let path = require('path');
 
-const { isAuth } = require('../middleware/authHandler');
+const { isAuth, isCompany } = require('../middleware/authHandler');
 const {
 	postEditProfile,
 	getProfile,
@@ -34,9 +34,8 @@ const router = express.Router();
 
 router
 	.route('/profile')
-	.post(isAuth, uploadImages.single('image'), postEditProfile);
+	.post(isAuth, isCompany, uploadImages.single('image'), postEditProfile);
 router.route('/profile/:id').get(isAuth, getProfile);
 router.route('/list').get(isAuth, getCompanies);
-router.route('/:companyID').get(isAuth, getCompanies);
 
 module.exports = router;
