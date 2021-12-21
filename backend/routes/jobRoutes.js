@@ -15,6 +15,7 @@ const {
 	createRound,
 	editRound,
 	deleteRound,
+	getRoundDetails,
 	changeApplicantStatus,
 } = require('../controllers/jobController');
 
@@ -44,20 +45,13 @@ router
 	.route('/')
 	.post(isAuth, uploadDocs.array('files'), postAddJob)
 	.get(isAuth, getJobList);
+
 router.route('/my').get(isAuth, getMyJobList);
+
 router
 	.route('/:jobID')
 	.put(isAuth, uploadDocs.array('files'), postEditJob)
 	.get(isAuth, getJobDetails)
 	.delete(isAuth, deleteJob);
-router
-	.route('/changestatus/:roundId/:studentId/:status')
-	.get(isAuth, changeApplicantStatus);
-router.route('/rounds/:jobID').get(isAuth, getRounds);
-router.route('/round').post(isAuth, createRound);
-router
-	.route('/round/:roundID')
-	.put(isAuth, editRound)
-	.delete(isAuth, deleteRound);
 
 module.exports = router;

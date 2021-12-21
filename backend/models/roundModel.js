@@ -24,6 +24,8 @@ const roundSchema = new Schema({
 		default: new Date(currentDate.getTime() + 86400000),
 		required: true,
 	},
+	status: { type: String, default: 'pending' },
+	resultType: { type: String, default: 'round' },
 	applicants: [
 		{
 			student: {

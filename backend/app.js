@@ -18,6 +18,7 @@ const authRoutes = require('./routes/authRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const companyRoutes = require('./routes/companyRoutes');
 const jobRoutes = require('./routes/jobRoutes');
+const roundRoutes = require('./routes/roundRoutes');
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ app.use(
 app.use('/api/student', studentRoutes);
 app.use('/api/company', companyRoutes);
 app.use('/api/job', jobRoutes);
+app.use('/api/round', roundRoutes);
 app.use('/api', authRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
