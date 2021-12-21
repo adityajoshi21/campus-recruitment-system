@@ -24,6 +24,10 @@ const studentSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	image: {
+		type: String,
+		default: 'defaultUser.png',
+	},
 	degree: {
 		type: String,
 		required: true,
@@ -52,6 +56,7 @@ const studentSchema = new Schema({
 	registeringFor: {
 		type: String,
 	},
+	resume: { type: Schema.Types.ObjectId, ref: 'Resume' },
 });
 
 module.exports = mongoose.model('Student', studentSchema);

@@ -1,14 +1,10 @@
 const bcrypt = require('bcryptjs');
-// const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 const validator = require('express-validator');
-const mailgun = require('mailgun-js');
+const TokenGenerator = require('uuid-token-generator');
 
-var mg = mailgun({
-	apiKey: '28eb8ec2a980f141509ddb5004ac80bc-adf6de59-2513ad49',
-	domain: 'programmerviral.tech',
-});
+const { sendEmail } = require('../utils/common');
 
 const { validationResult } = validator;
 
@@ -38,26 +34,87 @@ const postRegister = asyncHandler(async (req, res) => {
 	}
 
 	const hashedPassword = await bcrypt.hash(password, +process.env.SALTS);
+
+	const tokgen2 = new TokenGenerator(256, TokenGenerator.BASE62);
+	const regToken = tokgen2.generate();
+
 	const newAuth = new authModel({
 		email,
 		password: hashedPassword,
 		name,
 		role,
+		regToken,
 	});
 
-	await newAuth.save();
-
-	const data = {
-		from: 'placementsabkihogi@test.co',
-		to: email,
-		subject: 'Hello',
-		text: 'Testing some Mailgun awesomness! ',
-	};
-
-	const resBody = await mg.messages().send(data);
-	console.log(resBody);
+	const newUser = await newAuth.save();
+	sendEmail(
+		email,
+		'Registration Successfully',
+		"Congratulations!! You're registered. Please verify your email ID using link " +
+			'http:localhost:8000/api/verify/' +
+			newUser._id +
+			'/' +
+			regToken
+	);
 
 	res.status(statusCodes.RESOURCE_CREATED).json({ message: 'User registered' });
 });
 
-module.exports = { postRegister };
+const postLogin = asyncHandler(async (req, res) => {
+	const { email, password } = req.body;
+	const user = await authModel.findOne({ email });
+
+	if (user && (await user.matchPassword(password))) {
+		if (!user.verified) {
+			res.status(statusCodes.BAD_REQUEST);
+			throw new Error('Please verify email first');
+		}
+		const token = jwt.sign(
+			{
+				email: user.email,
+			},
+			'jwt token',
+			{
+				expiresIn: '24h',
+			}
+		);
+		req.session.token = token;
+		return req.session.save((err) => {
+			res.json({
+				name: user.name,
+				email: user.email,
+				verified: user.verified,
+				approved: user.approved,
+				role: user.role,
+			});
+		});
+	} else {
+		res.status(statusCodes.BAD_REQUEST);
+		throw new Error('Invalid credentials');
+	}
+});
+
+const verifyEmail = asyncHandler(async (req, res) => {
+	const { userId, token } = req.params;
+	const user = await authModel.findById(userId);
+	if (user) {
+		if (token === user.regToken) {
+			user.verified = true;
+			user.regToken = '';
+			await user.save();
+			res.json({ messahe: 'Successfully verified!' });
+		} else {
+			res.status(403);
+			throw new Error('Token not valid!');
+		}
+	} else {
+		res.status(403);
+		throw new Error('Token not valid!');
+	}
+});
+
+const getUser = asyncHandler(async (req, res) => {
+	res.json(req.user);
+});
+
+module.exports = { postRegister, postLogin, getUser, verifyEmail };
