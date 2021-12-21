@@ -147,13 +147,15 @@ const deleteJob = asyncHandler(async (req, res) => {
 });
 
 const getJobList = asyncHandler(async (req, res) => {
-	const list = await jobModel.find();
+	const list = await jobModel.find().populate('company');
 	res.json(list);
 });
 
 const getMyJobList = asyncHandler(async (req, res) => {
 	const company = await companyModel.findOne({ email: req.user.email });
-	const list = await jobModel.find({ company: ObjectId(company._id) });
+	const list = await jobModel
+		.find({ company: ObjectId(company._id) })
+		.populate('company');
 	res.json(list);
 });
 
