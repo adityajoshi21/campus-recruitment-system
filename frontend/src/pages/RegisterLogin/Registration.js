@@ -1,42 +1,40 @@
-import React from "react";
-import { useState } from "react";
-import validation from "./validation";
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Message from '../../components/Message'
+
+import { register } from '../../actions/userActions'
+
 import LoginRegNav from "./LoginRegNav";
-export const Registration = () => {
-  const [values, setValues] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: "Student",
-  });
-  const [errors, setErrors] = useState({});
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
+export const Registration = ({location,history}) => {
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    setErrors(validation(values));
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [role,setRole]=useState(' ')
+  const [message, setMessage] = useState(null)
 
-    let item = { values };
-    console.warn(item);
+   const dispatch = useDispatch()
 
-    let result = await fetch("/api/register", {
-      method: "POST",
-      body: JSON.stringify({...item.values}),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
+   const userRegister = useSelector(state => state.userRegister)
+   const { error, userInfo } = userRegister
 
-    result = await result.json();
-    console.warn("result", result);
-  };
+  
+  const redirect = location.search ? location.search.split('=')[1] : '/'
+  useEffect(() => {
+    if (userInfo) {
+      history.push(redirect)
+    }
+  }, [history, userInfo, redirect])
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault()
+    if (password !== confirmPassword) {
+      setMessage('Passwords do not match')
+    } else {
+      dispatch(register(name, email, password,confirmPassword,role))
+    }
+  }
   return (
     <div>
       <LoginRegNav title="Register" />
@@ -51,13 +49,15 @@ export const Registration = () => {
                     <i data-feather="edit"></i>Register Account
                   </h5>
                 </div>
+                {message && <Message variant='danger'>{message}</Message>}
+                {error && <Message variant='danger'>{error}</Message>}
                 <div className="account-type">
                   <label for="idRegisterCan">
-                    <input id="idRegisterCan" type="radio" name="register" />
+                    <input id="idRegisterCan" type="radio" name="role" value="Student" onChange={(e) => setRole(e.target.value)} />
                     <span>Student</span>
                   </label>
                   <label for="idRegisterEmp">
-                    <input id="idRegisterEmp" type="radio" name="register" />
+                    <input id="idRegisterEmp" type="radio" name="role" value="Company"  onChange={(e) => setRole(e.target.value)} />
                     <span>Company</span>
                   </label>
                 </div>
@@ -68,11 +68,11 @@ export const Registration = () => {
                       type="email"
                       name="email"
                       placeholder="Email Address"
-                      value={values.email}
-                      onChange={handleChange}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="form-control"
                     />
-                    <p style={{ color: "red" }}>{errors.email} </p>
+                   
                   </div>
 
                   <div className="form-group">
@@ -80,11 +80,11 @@ export const Registration = () => {
                       type="text"
                       name="name"
                       placeholder="username"
-                      value={values.name}
-                      onChange={handleChange}
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       className="form-control"
                     />
-                    <p style={{ color: "red" }}>{errors.name} </p>
+                   
                   </div>
 
                   <div className="form-group">
@@ -92,11 +92,11 @@ export const Registration = () => {
                       type="password"
                       name="password"
                       placeholder="Password"
-                      value={values.password}
-                      onChange={handleChange}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="form-control"
                     />
-                    <p style={{ color: "red" }}>{errors.password} </p>
+                    
                   </div>
 
                   <div className="form-group">
@@ -105,28 +105,14 @@ export const Registration = () => {
                       name="confirmPassword"
                       placeholder=" Confirm Password"
                       className="form-control"
-                      value={values.confirmPassword}
-                      onChange={handleChange}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                       className="form-control"
                     />
-                    <p style={{ color: "red" }}>{errors.confirmPassword} </p>
+                    
                   </div>
 
-                  <div className="more-option terms">
-                    <div className="mt-0 terms">
-                      <input
-                        className="custom-radio"
-                        type="checkbox"
-                        id="radio-4"
-                        name="termsandcondition"
-                        unchecked
-                      />
-                      <label for="radio-4">
-                        <span className="dot"></span>I accept the{" "}
-                        <a href="#">terms & conditions</a>
-                      </label>
-                    </div>
-                  </div>
+                  
                   <button
                     className="button primary-bg btn-block"
                     onClick={handleFormSubmit}
