@@ -148,7 +148,13 @@ const deleteJob = asyncHandler(async (req, res) => {
 
 const getJobList = asyncHandler(async (req, res) => {
 	const list = await jobModel.find().populate('company');
-	res.json(list);
+	const listJson = list.map((a) => a.toJSON());
+	const listWithUrl = listJson.map((job) => {
+		job.company.imageURL = '/uploads/profilePics/company/' + job.company.image;
+		return job;
+	});
+
+	res.json(listWithUrl);
 });
 
 const getMyJobList = asyncHandler(async (req, res) => {
