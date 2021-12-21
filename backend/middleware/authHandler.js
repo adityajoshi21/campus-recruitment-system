@@ -56,4 +56,22 @@ const isNotAuth = asyncHandler(async (req, res, next) => {
 	}
 });
 
-module.exports = { isAuth, isNotAuth };
+const isCompany = asyncHandler(async (req, res, next) => {
+	if (req.user.role == 'Company') {
+		next();
+	} else {
+		res.status(statusCodes.UNAUTHORISED);
+		throw new Error("You can't access this!");
+	}
+});
+
+const isStudent = asyncHandler(async (req, res, next) => {
+	if (req.user.role == 'Student') {
+		next();
+	} else {
+		res.status(statusCodes.UNAUTHORISED);
+		throw new Error("You can't access this!");
+	}
+});
+
+module.exports = { isAuth, isNotAuth, isCompany, isStudent };

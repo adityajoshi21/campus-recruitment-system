@@ -15,9 +15,14 @@ const getRounds = asyncHandler(async (req, res) => {
 
 const createRound = asyncHandler(async (req, res) => {
 	const { jobID, title, description } = req.body;
-	const jobDetails = await jobModel.findById(jobID);
+	const jobDetails = await jobModel.findById(jobID).populate('company');
 	const startDate = new Date(req.body.startDate);
 	const endDate = new Date(req.body.endDate);
+
+	if (String(jobDetails.company.email) != String(req.user.email)) {
+		res.status(401);
+		throw new Error("You're not authorized");
+	}
 
 	const newRound = new roundModel({
 		title,
@@ -46,6 +51,15 @@ const editRound = asyncHandler(async (req, res) => {
 	const endDate = new Date(req.body.endDate);
 
 	const roundDetails = await roundModel.findById(roundID).populate('job');
+	const jobDetails = await jobModel
+		.findById(roundDetails.job._id)
+		.populate('company');
+
+	if (String(jobDetails.company.email) != String(req.user.email)) {
+		res.status(401);
+		throw new Error("You're not authorized");
+	}
+
 	roundDetails.title = title;
 	roundDetails.description = description;
 	roundDetails.startDate = startDate;
@@ -73,7 +87,15 @@ const deleteRound = asyncHandler(async (req, res) => {
 	const { roundID } = req.params;
 	const roundDetails = await roundModel.findById(roundID).populate('job');
 
-	const jobDetails = await jobModel.findById(roundDetails.job._id);
+	const jobDetails = await jobModel
+		.findById(roundDetails.job._id)
+		.populate('company');
+
+	if (String(jobDetails.company.email) != String(req.user.email)) {
+		res.status(401);
+		throw new Error("You're not authorized");
+	}
+
 	const newRounds = jobDetails.rounds.filter(
 		(round) => String(round.details) != String(roundID)
 	);
@@ -103,7 +125,14 @@ const changeApplicantStatus = asyncHandler(async (req, res) => {
 	const { studentId, roundId, status } = req.params;
 
 	const roundDetails = await roundModel.findById(roundId).populate('job');
-	const jobDetails = await jobModel.findById(roundDetails.job._id);
+	const jobDetails = await jobModel
+		.findById(roundDetails.job._id)
+		.populate('company');
+
+	if (String(jobDetails.company.email) != String(req.user.email)) {
+		res.status(401);
+		throw new Error("You're not authorized");
+	}
 
 	const applicants = roundDetails.applicants;
 	roundDetails.applicants = applicants.map((applicant) => {
