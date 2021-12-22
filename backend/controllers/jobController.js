@@ -103,6 +103,12 @@ const postEditJob = asyncHandler(async (req, res) => {
 				}
 			);
 
+			const files = updatedJob.files.map((file) => {
+				file.fileURL = 'uploads/files/' + file.fileName;
+				return file;
+			});
+			updatedJob.files = files;
+
 			res.json(updatedJob);
 		} catch (err) {
 			res.status(statusCodes.BAD_REQUEST);
@@ -116,16 +122,21 @@ const postEditJob = asyncHandler(async (req, res) => {
 
 const getJobDetails = asyncHandler(async (req, res) => {
 	const jobID = req.params.jobID;
-	const jobDetails = await jobModel.findById(jobID);
+	const jobDetails = await jobModel.findById(jobID).populate('company');
 
-	if (jobDetails) {
-		const files = jobDetails.files.map((file) => {
+	const jobDetailsJson = jobDetails.toJSON();
+
+	jobDetailsJson.company.imageURL =
+		'/uploads/profilePics/company/' + jobDetailsJson.company.image;
+
+	if (jobDetailsJson) {
+		const files = jobDetailsJson.files.map((file) => {
 			file.fileURL = 'uploads/files/' + file.fileName;
 			return file;
 		});
-		jobDetails.files = files;
+		jobDetailsJson.files = files;
 
-		res.json(jobDetails);
+		res.json(jobDetailsJson);
 	} else {
 		res.status(statusCodes.NOT_FOUND);
 		throw new Error('Job not found!');
@@ -148,7 +159,13 @@ const deleteJob = asyncHandler(async (req, res) => {
 
 const getJobList = asyncHandler(async (req, res) => {
 	const list = await jobModel.find().populate('company');
-	res.json(list);
+	const listJson = list.map((a) => a.toJSON());
+	const listWithUrl = listJson.map((job) => {
+		job.company.imageURL = '/uploads/profilePics/company/' + job.company.image;
+		return job;
+	});
+
+	res.json(listWithUrl);
 });
 
 const getMyJobList = asyncHandler(async (req, res) => {
