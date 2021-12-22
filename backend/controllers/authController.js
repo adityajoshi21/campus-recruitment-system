@@ -51,7 +51,7 @@ const postRegister = asyncHandler(async (req, res) => {
 		email,
 		'Registration Successfully',
 		"Congratulations!! You're registered. Please verify your email ID using link " +
-			'http:localhost:8000/api/verify/' +
+			'http:localhost:3000/verifyEmail/' +
 			newUser._id +
 			'/' +
 			regToken
