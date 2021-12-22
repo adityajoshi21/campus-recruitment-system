@@ -1,5 +1,5 @@
 import React from 'react'
-import CompanyNav from './CompanyNav'
+import CompanyNav from '../NavigationBar/CompanyNav';
 import CompanySidebar from './CompanySidebar'
 
 export const CompanyManageJobs = () => {

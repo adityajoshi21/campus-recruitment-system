@@ -4,6 +4,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 const statusCodes = require('../utils/httpStatusCodes.js');
 const companyModel = require('../models/companyModel');
+const studentModel = require('../models/studentModel');
 const jobModel = require('../models/jobModel');
 const roundModel = require('../models/roundModel');
 
@@ -126,6 +127,31 @@ const getJobDetails = asyncHandler(async (req, res) => {
 
 	const jobDetailsJson = jobDetails.toJSON();
 
+	const currentDate = new Date();
+
+	if (req.user.role == 'Student') {
+		const studentDetails = await studentModel.findOne({
+			email: req.user.email,
+		});
+		jobDetailsJson.eligible = true;
+
+		if (
+			!(
+				currentDate >= jobDetails.startDate && currentDate <= jobDetails.endDate
+			)
+		) {
+			jobDetailsJson.eligible = false;
+		}
+
+		if (jobDetails.criteria > studentDetails.cpi) {
+			jobDetailsJson.eligible = false;
+		}
+
+		if (!jobDetails.openFor.includes(studentDetails.degree)) {
+			jobDetailsJson.eligible = false;
+		}
+	}
+
 	jobDetailsJson.company.imageURL =
 		'/uploads/profilePics/company/' + jobDetailsJson.company.image;
 
@@ -168,6 +194,21 @@ const getJobList = asyncHandler(async (req, res) => {
 	res.json(listWithUrl);
 });
 
+const getRecentJobList = asyncHandler(async (req, res) => {
+	const list = await jobModel
+		.find()
+		.sort({ startDate: 1 })
+		.limit(10)
+		.populate('company');
+	const listJson = list.map((a) => a.toJSON());
+	const listWithUrl = listJson.map((job) => {
+		job.company.imageURL = '/uploads/profilePics/company/' + job.company.image;
+		return job;
+	});
+
+	res.json(listWithUrl);
+});
+
 const getMyJobList = asyncHandler(async (req, res) => {
 	const company = await companyModel.findOne({ email: req.user.email });
 	const list = await jobModel
@@ -182,5 +223,6 @@ module.exports = {
 	getJobDetails,
 	deleteJob,
 	getJobList,
+	getRecentJobList,
 	getMyJobList,
 };

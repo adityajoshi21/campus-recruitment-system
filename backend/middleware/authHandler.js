@@ -13,7 +13,7 @@ const isAuth = asyncHandler(async (req, res, next) => {
 
 			const user = await authModel.findOne(
 				{ email: decode.email },
-				{ email: 1, role: 1, _id: 1 }
+				{ password: 0, regToken: 0 }
 			);
 			if (!user) {
 				res.status(statusCodes.UNAUTHORISED);

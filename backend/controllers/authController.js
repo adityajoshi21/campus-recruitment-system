@@ -102,7 +102,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
 			user.verified = true;
 			user.regToken = '';
 			await user.save();
-			res.json({ messahe: 'Successfully verified!' });
+			res.json({ message: 'Successfully verified!' });
 		} else {
 			res.status(403);
 			throw new Error('Token not valid!');

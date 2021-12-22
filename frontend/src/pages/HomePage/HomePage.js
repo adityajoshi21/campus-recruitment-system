@@ -5,25 +5,29 @@ import Listing from './Listing';
 import StudentNav from '../NavigationBar/StudentNav';
 import RCData from './RCData';
 import RecentCompanies from './RecentCompanies';
+import CompanyDashboard from '../CompanyPages/CompanyDashboard';
+import { useHistory } from 'react-router-dom';
+
+import { checkIfLoggedIn } from '../../helpers/utils';
 
 const HomePage = () => {
 	const [data, setData] = useState([]);
-	const [filter, setFilter] = useState(data);
-	let componentMounted = true;
+
+	const history = useHistory();
 
 	useEffect(() => {
 		const getJobs = async () => {
-			const response = await fetch('/api/job/');
-			if (componentMounted) {
-				setData(await response.clone().json());
-				setFilter(await response.json());
-			}
-			return () => {
-				componentMounted = false;
-			};
+			const response = await fetch('/api/job/recent');
+			setData(await response.json());
 		};
-		getJobs();
-	}, []);
+		checkIfLoggedIn(history).then((userData) => {
+			if (userData.role == 'Company') {
+				history.push('/companyDashboard');
+			} else {
+				getJobs();
+			}
+		});
+	}, [history, setData]);
 
 	return (
 		<div>
@@ -78,57 +82,6 @@ const HomePage = () => {
 				</div>
 			</div>
 
-			<div className="searchAndFilter-wrapper">
-				<div className="container">
-					<div className="row">
-						<div className="col">
-							<div className="searchAndFilter-block-3">
-								<div className="searchAndFilter-3">
-									<form action="#" className="search-form">
-										<div className="keyword">
-											<label>What?</label>
-											<input type="text" placeholder="Enter Your Keywords" />
-										</div>
-										<div className="location-input">
-											<label>Where?</label>
-											<select className="selectpicker" id="search-location">
-												<option value="" selected>
-													All Locations
-												</option>
-												<option value="california">California</option>
-												<option value="las-vegas">Las Vegas</option>
-												<option value="new-work">New Work</option>
-												<option value="carolina">Carolina</option>
-												<option value="chicago">Chicago</option>
-												<option value="silicon-vally">Silicon Vally</option>
-												<option value="washington">Washington DC</option>
-												<option value="neveda">Neveda</option>
-											</select>
-										</div>
-										<div className="category-input">
-											<label>Category</label>
-											<select className="selectpicker" id="search-category">
-												<option value="" selected>
-													All Categories
-												</option>
-												<option value="real-state">Real State</option>
-												<option value="vehicales">Vehicales</option>
-												<option value="electronics">Electronics</option>
-												<option value="beauty">Beauty</option>
-												<option value="furnitures">Furnitures</option>
-											</select>
-										</div>
-										<button className="button primary-bg">
-											<i className="fas fa-search"></i>
-										</button>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
 			<div className="section-padding-bottom alice-bg">
 				<div className="container">
 					<div className="row">
@@ -141,9 +94,10 @@ const HomePage = () => {
 							</div>
 						</div>
 					</div>
-					{filter.map((recentJobdata) => {
+					{data.map((recentJobdata) => {
 						return (
 							<Listing
+								jobId={recentJobdata._id}
 								image={recentJobdata.company.imageURL}
 								JobTitle={recentJobdata.title}
 								company={recentJobdata.company.name}

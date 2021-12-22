@@ -10,6 +10,7 @@ const {
 	getJobDetails,
 	deleteJob,
 	getJobList,
+	getRecentJobList,
 	getMyJobList,
 } = require('../controllers/jobController');
 
@@ -35,6 +36,7 @@ let uploadDocs = multer({ storage, fileFilterDocs });
 
 const router = express.Router();
 
+router.route('/recent').get(isAuth, getRecentJobList);
 router
 	.route('/')
 	.post(isAuth, isCompany, uploadDocs.array('files'), postAddJob)

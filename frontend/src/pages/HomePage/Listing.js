@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const Listing = (props) => {
 	return (
@@ -39,17 +40,19 @@ const Listing = (props) => {
 				<div class="more">
 					<div class="buttons">
 						<a
-							href="#"
+							href={'/job/' + props.jobId}
 							class="button"
 							data-toggle="modal"
 							data-target="#apply-popup-id">
 							Apply Now
 						</a>
-						<a href="#" class="favourite">
+						{/* <a href="#" class="favourite">
 							<i data-feather="heart"></i>
-						</a>
+						</a> */}
 					</div>
-					<p class="deadline">{props.deadline}</p>
+					<p class="deadline">
+						{moment(props.deadline).format('MMM Do, YYYY')}
+					</p>
 				</div>
 			</div>
 		</div>
