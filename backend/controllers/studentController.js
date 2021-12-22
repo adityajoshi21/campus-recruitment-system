@@ -60,6 +60,18 @@ const getProfile = asyncHandler(async (req, res) => {
 	}
 });
 
+const getMyProfile = asyncHandler(async (req, res) => {
+	const email = req.user.email;
+	const student = await studentModel.findOne({ email });
+
+	if (student) {
+		res.json(student);
+	} else {
+		res.status(statusCodes.NOT_FOUND);
+		throw new Error('Student not found!');
+	}
+});
+
 const postEditResume = asyncHandler(async (req, res) => {
 	const reqBody = req.body;
 	const email = req.user.email;
@@ -155,6 +167,7 @@ const applyForJob = asyncHandler(async (req, res) => {
 module.exports = {
 	postEditProfile,
 	getProfile,
+	getMyProfile,
 	postEditResume,
 	getResume,
 	applyForJob,

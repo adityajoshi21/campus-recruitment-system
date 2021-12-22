@@ -6,6 +6,7 @@ const { isAuth, isCompany } = require('../middleware/authHandler');
 const {
 	postEditProfile,
 	getProfile,
+	getMyProfile,
 	getCompanies,
 } = require('../controllers/companyController');
 
@@ -35,6 +36,7 @@ const router = express.Router();
 router
 	.route('/profile')
 	.post(isAuth, isCompany, uploadImages.single('image'), postEditProfile);
+router.route('/myprofile').get(isAuth, isCompany, getMyProfile);
 router.route('/profile/:id').get(isAuth, getProfile);
 router.route('/list').get(isAuth, getCompanies);
 

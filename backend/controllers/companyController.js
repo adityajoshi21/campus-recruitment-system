@@ -46,9 +46,23 @@ const getProfile = asyncHandler(async (req, res) => {
 	}
 });
 
+const getMyProfile = asyncHandler(async (req, res) => {
+	const email = req.user.email;
+	const company = await companyModel.findOne({ email });
+
+	if (company) {
+		company.image = '/uploads/profilePics/company/' + company.image;
+		const jobs = await jobModel.find({ company: ObjectId(company._id) });
+		res.json({ ...JSON.parse(JSON.stringify(company)), jobs });
+	} else {
+		res.status(statusCodes.NOT_FOUND);
+		throw new Error('Company not found!');
+	}
+});
+
 const getCompanies = asyncHandler(async (req, res) => {
 	const list = await companyModel.find();
 	res.json(list);
 });
 
-module.exports = { postEditProfile, getProfile, getCompanies };
+module.exports = { postEditProfile, getProfile, getCompanies, getMyProfile };

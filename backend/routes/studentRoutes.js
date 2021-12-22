@@ -6,6 +6,7 @@ const { isAuth, isStudent } = require('../middleware/authHandler');
 const {
 	postEditProfile,
 	getProfile,
+	getMyProfile,
 	postEditResume,
 	getResume,
 	applyForJob,
@@ -35,6 +36,7 @@ let upload = multer({ storage, fileFilter });
 const router = express.Router();
 
 router.route('/profile').post(isAuth, upload.single('image'), postEditProfile);
+router.route('/getmyprofile').get(isAuth, getMyProfile);
 router.route('/profile/:studentID').get(isAuth, getProfile);
 router.route('/resume').post(isAuth, isStudent, postEditResume);
 router.route('/resume/:studentID').get(isAuth, isStudent, getResume);
