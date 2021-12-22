@@ -131,9 +131,9 @@ const HomePage = () => {
           filter.map(recentJobdata=>{
             return(
               <Listing 
-             
+              image={recentJobdata.company.imageURL}
               JobTitle={recentJobdata.title}
-              company={recentJobdata.company}
+              company={recentJobdata.company.name}
               city={recentJobdata.location}
               type={recentJobdata.offerType}
               deadline={recentJobdata.endDate}
@@ -144,36 +144,6 @@ const HomePage = () => {
       </div>
     </div>
  
-
-    <div class="section-padding-top padding-bottom-90">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <div class="section-header">
-              <h2>Top Companies</h2>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <div class="company-carousel owl-carousel">
-            {
-          RCData.map(data=>{
-            return(
-              <RecentCompanies 
-              image={data.img}
-              companyName={data.companyname}
-              location={data.location}
-              position={data.position}
-              />
-            );
-          })
-        }
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     </div>
   );

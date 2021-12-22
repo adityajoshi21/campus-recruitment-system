@@ -32,7 +32,7 @@ const Details = (props) => {
                                         <div className="description details-section">
                                             <h4><i data-feather="align-left"></i>Job Description</h4>
                                             <p>{props.Des1}</p>
-                                            <p>{props.Des2} </p>
+                                            
                                         </div>
                                         <div className="responsibilities details-section">
                                             <h4><i data-feather="zap"></i>Responsibilities</h4>
@@ -48,11 +48,8 @@ const Details = (props) => {
                                         <div className="edication-and-experience details-section">
                                             <h4><i data-feather="book"></i>Education + Experience</h4>
                                             <ul>
-                                                <li>M.Com (Accounting) / M.B.S / M.B.A under National University with CA course complete.</li>
-                                                <li>M.S (Statistics) any Public University / National University.</li>
-                                                <li>Masters of library science any Public University.</li>
-                                                <li>2 to 3 year(s) Experiance</li>
-                                                <li>Females candidate are discourage to apply.</li>
+                                                <li>{props.Edu1}</li>
+                                                
                                             </ul>
                                         </div>
 
@@ -61,11 +58,10 @@ const Details = (props) => {
                                                 <div className="company-information details-section">
                                                     <h4><i data-feather="briefcase"></i>About the Company</h4>
                                                     <ul>
-                                                        <li><span>Company Name:</span> The Oreo Company Ltd.</li>
-                                                        <li><span>Address:</span> Queens, NY 11375 USA</li>
-                                                        <li><span>Website:</span> <a href="#">www.theoreoltd.com</a></li>
+                                                        <li><span>Company Name:</span> {props.company}</li>
+                                                        <li><span>Address:</span> {props.address}</li>
                                                         <li><span>Company Profile:</span></li>
-                                                        <li>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum looked up one of the more obscure Latin words, consectetur.</li>
+                                                        <li>{props.description}</li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -80,26 +76,14 @@ const Details = (props) => {
                                             <div className="job-summary">
                                                 <h4>Job Summary</h4>
                                                 <ul>
-                                                    <li><span>Published on:</span> Oct 6,  2020</li>
-                                                    <li><span>Vacancy:</span> 08</li>
-                                                    <li><span>Employment Status:</span> Full-time</li>
-                                                    <li><span>Experience:</span> 2 to 3 year(s)</li>
-                                                    <li><span>Job Location:</span> New ork City</li>
-                                                    <li><span>Salary:</span> $32k - $36k</li>
+            
+                                                    <li><span>Job Location:</span> {props.location}</li>
+                                                    <li><span>Salary:</span> {props.salary}</li>
                                                     <li><span>Gender:</span> Any</li>
-                                                    <li><span>Application Deadline:</span> Oct 15,  2020</li>
+                                                    <li><span>Application Deadline:</span> {props.ApplyDeadline}</li>
                                                 </ul>
                                             </div>
 
-                                            <div className="other-benifit details-section">
-                                                <h4><i data-feather="gift"></i>Other Benefits</h4>
-                                                <ul>
-                                                    <li>Health and life insurance </li>
-                                                    <li>2 days of weekend </li>
-                                                    <li>2 annual performanc Bonuses</li>
-                                                    <li>Lunch &amp; Snacks</li>
-                                                </ul>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
