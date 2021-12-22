@@ -1,5 +1,15 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../actions/userActions';
  const StudentNav = () => {
+  const dispatch = useDispatch()
+
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+
+  const logoutHandler = () => {
+    dispatch(logout())
+  }
     return (
         <div>
            <header className="header-2">
@@ -22,6 +32,7 @@ import React from 'react'
                 </div>
                 <div>
                 <a href="#"><img src="images/Exit.png" alt=""/></a>
+
                 </div>
               </div>
             </div>
